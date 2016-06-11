@@ -1,0 +1,21 @@
+apply plugin: 'war'
+apply plugin: 'eclipse-wtp'
+
+ext {
+	LOGGING_API_VERSION = '1.7.21'
+	APACHE_COMMONS_VERSION = '3.4'
+}
+
+repositories {
+	mavenLocal()
+	mavenCentral()
+}
+
+sourceCompatibility = 1.8
+
+dependencies {
+	compile "org.slf4j:slf4j-api:${LOGGING_API_VERSION}",
+		"org.slf4j:slf4j-log4j12:${LOGGING_API_VERSION}",
+		"org.apache.commons:commons-lang3:${APACHE_COMMONS_VERSION}"
+	testCompile 'junit:junit:4.12'
+}
