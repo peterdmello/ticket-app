@@ -6,6 +6,11 @@ import java.util.Set;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.ticketapp.util.GeneratorUtil;
 
+/**
+ * Holds information of a particular Event seat level
+ * @author peter
+ *
+ */
 public class SeatLevel implements Comparable<SeatLevel>{
 	private final int id;
 	private final String name;

@@ -2,6 +2,11 @@ package org.ticketapp.bean;
 
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
+/**
+ * Seat information and state
+ * @author peter
+ *
+ */
 public class Seat implements Comparable<Seat> {
 	public enum SeatState {
 		AVAILABLE, ON_HOLD, BOOKED

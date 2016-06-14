@@ -6,6 +6,11 @@ import java.util.Set;
 
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
+/**
+ * Holds information about a particular row in the seat level of an event
+ * @author peter
+ *
+ */
 public class SeatRow implements Comparable<SeatRow>{
 	private final int id;
 	private final String name;

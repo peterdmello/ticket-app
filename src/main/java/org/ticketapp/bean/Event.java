@@ -11,7 +11,7 @@ import java.util.function.Function;
 import org.ticketapp.bean.input.LevelInput;
 
 /**
- * Contains event related data.
+ * Contains event state data.
  * 
  * @author peter
  *
@@ -74,17 +74,8 @@ public class Event implements Comparable<Event> {
 	}
 
 	private Integer getSeats(Optional<Integer> levelId, Function<SeatLevel, Integer> mapper) {
+		// get seats based on valid level id or for all levels
 		return levelId.flatMap(level -> getLevel(level)).map(level -> mapper.apply(level)).orElse(levels.parallelStream().mapToInt(level -> mapper.apply(level)).sum());
-		/*if (levelId != null && levelId.isPresent()) {
-			Optional<SeatLevel> providedLevel = getLevel(levelId.get());
-			if (providedLevel.isPresent()) {
-				return mapper.apply(providedLevel.get());
-			} else {
-				return -1;
-			}
-		} else {
-			return levels.parallelStream().mapToInt(level -> mapper.apply(level)).sum();
-		}*/
 	}
 
 	private Optional<SeatLevel> getLevel(Integer levelId) {
