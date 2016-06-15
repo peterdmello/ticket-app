@@ -2,13 +2,14 @@ package org.ticketapp.bean;
 
 import java.time.ZonedDateTime;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
-import java.util.Set;
-import java.util.function.Function;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
+import java.util.function.Predicate;
 
-import org.ticketapp.bean.input.LevelInput;
+import org.ticketapp.bean.Seat.SeatState;
 
 /**
  * Contains event state data.
@@ -22,22 +23,27 @@ public class Event implements Comparable<Event> {
 	private final String name;
 	private final ZonedDateTime startDateTime;
 	private final long duration;
-	private final Set<SeatLevel> levels;
+	private final ConcurrentMap<SeatIdentifier, Seat> seats;
+	// private final Set<SeatLevel> levels;
 	/**
 	 * Seconds after which a hold on tickets will expire
 	 */
 	private long holdExpirationSeconds;
 
-	public Event(int id, String name, ZonedDateTime startDT, long duration, List<LevelInput> levelInfos) {
+	public Event(int id, String name, ZonedDateTime startDT, long duration, List<SeatLevel> levels) {
 		this.id = id;
 		this.name = name;
 		this.startDateTime = startDT;
 		this.duration = duration;
-		this.levels = new HashSet<>(levelInfos.size());
-		int levelNum = 1;
-		for (LevelInput levelInfo : levelInfos) {
-			this.levels.add(new SeatLevel(levelNum++, levelInfo.getName(), levelInfo.getPrice(), levelInfo.getRows(),
-					levelInfo.getSeatsInRow()));
+		this.seats = new ConcurrentHashMap<>();
+
+		for (SeatLevel level : levels) {
+			for (int rowId = 1; rowId <= level.getRows(); rowId++) {
+				for (int seatId = 1; seatId <= level.getSeats(); seatId++) {
+					SeatIdentifier sid = new SeatIdentifier(level.getId(), rowId, seatId);
+					seats.putIfAbsent(sid, new Seat(sid));
+				}
+			}
 		}
 	}
 
@@ -57,32 +63,45 @@ public class Event implements Comparable<Event> {
 		return duration;
 	}
 
-	public Set<SeatLevel> getLevels() {
-		return Collections.unmodifiableSet(levels);
-	}
+	/*
+	 * public Set<SeatLevel> getLevels() { return
+	 * Collections.unmodifiableSet(levels); }
+	 */
 
 	public long getHoldExpirationSeconds() {
 		return holdExpirationSeconds;
 	}
 
+	public Map<SeatIdentifier, Seat> getSeats() {
+		return Collections.unmodifiableMap(seats);
+	}
+
 	public int getAvailableSeats(Optional<Integer> levelId) {
-		return getSeats(levelId, level -> level.getAvailableSeats());
+		return getSeats(levelId, seat -> seat.getState() == SeatState.AVAILABLE);
 	}
 
 	public int getTotalSeats(Optional<Integer> levelId) {
-		return getSeats(levelId, level -> level.getTotalSeats());
+		return getSeats(levelId, seat -> true);
 	}
 
-	private Integer getSeats(Optional<Integer> levelId, Function<SeatLevel, Integer> mapper) {
+	private Integer getSeats(Optional<Integer> levelId, Predicate<Seat> predicate) {
 		// get seats based on valid level id or for all levels
-		return levelId.flatMap(level -> getLevel(level)).map(level -> mapper.apply(level)).orElse(levels.parallelStream().mapToInt(level -> mapper.apply(level)).sum());
+		
+		return levelId.map(level -> seats.entrySet().parallelStream().filter(
+				seatEntry -> seatEntry.getKey().getLevel() == level && predicate.test(seatEntry.getValue())).mapToInt(e -> 1).sum()
+				).orElse(seats.entrySet().parallelStream().filter(seatEntry -> predicate.test(seatEntry.getValue())).mapToInt(e -> 1).sum());
+		/*return levelId.map(
+				level -> seats.entrySet().parallelStream().filter(
+						seatEntry -> seatEntry.getKey().getLevel() == level && predicate.test(seatEntry.getValue())
+					).mapToInt(e -> 1).sum());*/
+		//return levelId.flatMap(level -> getLevel(level)).map(level -> mapper.apply(level)).orElse(levels.parallelStream().mapToInt(level -> mapper.apply(level)).sum());
 	}
 
-	private Optional<SeatLevel> getLevel(Integer levelId) {
+	/*private Optional<SeatLevel> getLevel(Integer levelId) {
 		Optional<SeatLevel> providedLevel = levels.parallelStream().filter(level -> level.getId() == levelId)
 				.findFirst();
 		return providedLevel;
-	}
+	}*/
 
 	@Override
 	public int compareTo(Event o) {

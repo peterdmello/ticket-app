@@ -12,22 +12,22 @@ public class Seat implements Comparable<Seat> {
 		AVAILABLE, ON_HOLD, BOOKED
 	}
 
-	private final int id;
+	private final SeatIdentifier id;
 	private final SeatState state;
 	private Integer holdId;
 	private Integer reservationId;
 
-	public Seat(int id) {
+	public Seat(SeatIdentifier id) {
 		this.id = id;
 		this.state = SeatState.AVAILABLE;
 	}
 
-	public Seat(int id, SeatState state) {
+	public Seat(SeatIdentifier id, SeatState state) {
 		this.id = id;
 		this.state = state;
 	}
 
-	public int getId() {
+	public SeatIdentifier getId() {
 		return id;
 	}
 
@@ -69,6 +69,6 @@ public class Seat implements Comparable<Seat> {
 
 	@Override
 	public int compareTo(Seat o) {
-		return Integer.compare(id, o.id);
+		return id.compareTo(o.id);
 	}
 }

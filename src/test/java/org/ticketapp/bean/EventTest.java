@@ -10,6 +10,7 @@ import java.util.Optional;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.ticketapp.bean.input.EventInput;
 import org.ticketapp.bean.input.LevelInput;
 
 public class EventTest {
@@ -29,7 +30,13 @@ public class EventTest {
 		levels.add(li);
 		li = new LevelInput("Balcony 2", 40.0, 15, 100);
 		levels.add(li);
-		event = new Event(1, eventName, ZonedDateTime.now(), eventDuration, levels);
+		EventInput ei = new EventInput(eventName, ZonedDateTime.now(), eventDuration, levels);
+		List<SeatLevel> seatLevels = new ArrayList<>();
+		int i = 1;
+		for (LevelInput levelInput: levels) {
+			seatLevels.add(new SeatLevel(i++, levelInput.getName(), levelInput.getPrice(), levelInput.getRows(), levelInput.getSeatsInRow()));
+		}
+		event = new Event(1, ei.getName(), ei.getStartDateTime(), ei.getDuration(), seatLevels);
 	}
 
 	@Test
@@ -54,7 +61,7 @@ public class EventTest {
 
 	@Test
 	public void testShouldGetTotalAvailableSeatsForNonExistentLevel() {
-		assertEquals(6250, event.getAvailableSeats(Optional.of(5)));
+		assertEquals(0, event.getAvailableSeats(Optional.of(5)));
 	}
 
 	@Test
@@ -72,7 +79,7 @@ public class EventTest {
 
 	@Test
 	public void testShouldGetTotalSeatsForNonExistentLevel() {
-		assertEquals(6250, event.getTotalSeats(Optional.of(5)));
+		assertEquals(0, event.getTotalSeats(Optional.of(5)));
 	}
 
 }

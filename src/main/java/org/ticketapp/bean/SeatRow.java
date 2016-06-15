@@ -14,14 +14,14 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 public class SeatRow implements Comparable<SeatRow>{
 	private final int id;
 	private final String name;
-	private final Set<Seat> seats;
+	//private final Set<Seat> seats;
 	public SeatRow(int id, String name, int countSeats) {
 		this.id = id;
 		this.name = name;
-		this.seats  = new HashSet<>(countSeats);
+		/*this.seats  = new HashSet<>(countSeats);
 		for (int i = 1; i <= countSeats; i++) {
 			seats.add(new Seat(i));
-		}
+		}*/
 	}
 	public int getId() {
 		return id;
@@ -29,7 +29,7 @@ public class SeatRow implements Comparable<SeatRow>{
 	public String getName() {
 		return name;
 	}
-	public Set<Seat> getSeats() {
+	/*public Set<Seat> getSeats() {
 		return Collections.unmodifiableSet(seats);
 	}
 	public int getTotalSeats() {
@@ -37,7 +37,7 @@ public class SeatRow implements Comparable<SeatRow>{
 	}
 	public int getAvailableSeats() {
 		return (int) seats.parallelStream().filter(seat -> seat.getState() == Seat.SeatState.AVAILABLE).count();
-	}
+	}*/
 	@Override
 	public boolean equals(Object obj) {
 		if (obj == null) {

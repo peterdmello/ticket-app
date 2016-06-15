@@ -14,16 +14,20 @@ import org.ticketapp.util.GeneratorUtil;
 public class SeatLevel implements Comparable<SeatLevel>{
 	private final int id;
 	private final String name;
-	private final Set<SeatRow> rows;
+	private final int rows;
+	private final int seats;
+	//private final Set<SeatRow> rows;
 	private final Double price;
 	public SeatLevel(int id, String name, Double price, int numRows, int numSeats) {
 		this.id = id;
 		this.name = name;
 		this.price = price;
-		this.rows = new HashSet<>(numRows);
+		this.rows = numRows;
+		this.seats = numSeats;
+		/*this.rows = new HashSet<>(numRows);
 		for (int i = 1; i <= numRows; i++) {
 			rows.add(new SeatRow(i, GeneratorUtil.getString(i), numSeats));
-		}
+		}*/
 	}
 	public int getId() {
 		return id;
@@ -31,26 +35,32 @@ public class SeatLevel implements Comparable<SeatLevel>{
 	public String getName() {
 		return name;
 	}
-	public Set<SeatRow> getRows() {
+	/*public Set<SeatRow> getRows() {
 		return rows;
-	}
+	}*/
 	public Double getPrice() {
 		return price;
+	}
+	public int getRows() {
+		return rows;
+	}
+	public int getSeats() {
+		return seats;
 	}
 	/**
 	 * Returns the total seats in all rows
 	 * @return total seats in all rows
 	 */
-	public int getTotalSeats() {
+	/*public int getTotalSeats() {
 		return rows.parallelStream().mapToInt(row -> row.getTotalSeats()).sum();
 	}
 	/**
 	 * Returns the number of available seats in all rows
 	 * @return number of available seats in all rows
 	 */
-	public int getAvailableSeats() {
+	/*public int getAvailableSeats() {
 		return rows.parallelStream().mapToInt(row -> row.getAvailableSeats()).sum();
-	}
+	}*/
 	@Override
 	public boolean equals(Object obj) {
 		if (obj == null) {
