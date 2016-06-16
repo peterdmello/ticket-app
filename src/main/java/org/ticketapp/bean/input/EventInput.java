@@ -8,11 +8,13 @@ public class EventInput {
 	private final ZonedDateTime startDateTime;
 	private final long duration;
 	private final List<LevelInput> levels;
-	public EventInput(String name, ZonedDateTime startDT, long duration, List<LevelInput> levels) {
+	private final long holdExpirationSeconds;
+	public EventInput(String name, ZonedDateTime startDT, long duration, List<LevelInput> levels, long holdExpirationSeconds) {
 		this.name = name;
 		this.startDateTime = startDT;
 		this.duration = duration;
 		this.levels = levels;
+		this.holdExpirationSeconds = holdExpirationSeconds;
 	}
 	public String getName() {
 		return name;
@@ -26,5 +28,7 @@ public class EventInput {
 	public List<LevelInput> getLevels() {
 		return levels;
 	}
-	
+	public long getHoldExpirationSeconds() {
+		return holdExpirationSeconds;
+	}
 }

@@ -3,7 +3,12 @@ package org.ticketapp.bean;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 /**
- * Seat information and state
+ * Seat information and state.
+ * <p>
+ * Currently, the state is not used to uniquely identify the object. On the
+ * fence if this should be the case or not. From a caching point of view, it
+ * would be a bad idea.
+ * 
  * @author peter
  *
  */
@@ -14,8 +19,8 @@ public class Seat implements Comparable<Seat> {
 
 	private final SeatIdentifier id;
 	private final SeatState state;
-	private Integer holdId;
-	private Integer reservationId;
+	// private Integer holdId;
+	// private Integer reservationId;
 
 	public Seat(SeatIdentifier id) {
 		this.id = id;
@@ -35,13 +40,11 @@ public class Seat implements Comparable<Seat> {
 		return state;
 	}
 
-	public Integer getHoldId() {
-		return holdId;
-	}
-
-	public Integer getReservationId() {
-		return reservationId;
-	}
+	/*
+	 * public Integer getHoldId() { return holdId; }
+	 * 
+	 * public Integer getReservationId() { return reservationId; }
+	 */
 
 	public boolean isAvailable() {
 		return state == SeatState.AVAILABLE;
