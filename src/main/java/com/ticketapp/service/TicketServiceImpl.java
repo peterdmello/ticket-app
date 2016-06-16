@@ -236,6 +236,7 @@ public final class TicketServiceImpl implements TicketService, TicketServiceV2 {
 	}
 
 	Event updateEventSeats(int eventId, Map<SeatState, List<Seat>> updatedSeats) {
+		// TODO: write lock
 		// update map
 		Event event = getEvent(eventId);
 		return new Event(event, updatedSeats);
@@ -243,7 +244,12 @@ public final class TicketServiceImpl implements TicketService, TicketServiceV2 {
 
 	@Override
 	public String reserveSeats(int seatHoldId, String customerEmail) {
-		// TODO Auto-generated method stub
+		// TODO: write lock
+		// check if holdId exists in collection, if not throw exception
+		// cancel scheduled task
+		// updateEvent
+		// remove from hold
+		// add to reserved list
 		return null;
 	}
 
