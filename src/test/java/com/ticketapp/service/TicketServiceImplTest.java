@@ -10,7 +10,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
@@ -26,39 +25,27 @@ import org.ticketapp.bean.Seat;
 import org.ticketapp.bean.Seat.SeatState;
 import org.ticketapp.bean.SeatHold;
 import org.ticketapp.bean.SeatIdentifier;
-import org.ticketapp.bean.SeatLevel;
 import org.ticketapp.bean.input.EventInput;
 import org.ticketapp.bean.input.LevelInput;
 
-import com.ticketapp.service.TicketServiceImpl.EventSync;
-import com.ticketapp.service.TicketServiceImpl.ScheduledHold;
 import com.ticketapp.service.exception.SeatHoldException;
 
 public class TicketServiceImplTest {
 
 	private TicketServiceImpl ticketServiceImpl;
 	private ScheduledExecutorService mockExecutor;
-	private ConcurrentMap<Integer, EventSync> mockEvents;
-	private ConcurrentMap<Integer, List<SeatLevel>> mockSeatLevels;
-	private ConcurrentMap<Integer, ScheduledHold> mockHolds;
 	@Rule public JUnitRuleMockery context = new JUnitRuleMockery();
 	@Before
 	public void before() {
 		mockExecutor = context.mock(ScheduledExecutorService.class);
-		mockEvents = context.mock(ConcurrentMap.class, "events");
-		mockSeatLevels = context.mock(ConcurrentMap.class, "seatLevels");
-		mockHolds = context.mock(ConcurrentMap.class, "holds");
 		context.checking(new Expectations() {{
 			oneOf(mockExecutor).isShutdown();will(returnValue(false));
 		}});
-		ticketServiceImpl = new TicketServiceImpl(mockExecutor, mockEvents, mockSeatLevels, mockHolds);
+		ticketServiceImpl = new TicketServiceImpl(mockExecutor, new ConcurrentHashMap<>(), new ConcurrentHashMap<>(), new ConcurrentHashMap<>());
 	}
 
 	@Test(expected = IllegalStateException.class)
 	public void testGetFirstEventShouldFailForNoEvents() {
-		context.checking(new Expectations() {{
-			oneOf(mockEvents).values();will(returnValue(Collections.emptySet()));
-		}});
 		ticketServiceImpl.getFirstEvent();
 	}
 
@@ -140,10 +127,6 @@ public class TicketServiceImplTest {
 		lis.add(new LevelInput("l1", 2.0, 1, 1));
 		lis.add(new LevelInput("l2", 3.0, 1, 1));
 		EventInput event = new EventInput(name, ZonedDateTime.now(), 1l, Collections.unmodifiableList(lis), 10);
-		context.checking(new Expectations() {{
-			oneOf(mockEvents).put(with(equal(1)), with(any(EventSync.class)));
-			oneOf(mockSeatLevels).put(1, Arrays.asList(new SeatLevel(1, null, null, 1, 1), new SeatLevel(2, null, null, 1, 1)));
-		}});
 		ticketServiceImpl.createEvent(event);
 		List<Seat> seats = ticketServiceImpl.findSeats(1, 2, Optional.empty(), Optional.empty(), "a@b.com");
 		assertEquals(2, seats.size());
