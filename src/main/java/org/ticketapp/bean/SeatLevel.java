@@ -1,10 +1,6 @@
 package org.ticketapp.bean;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import org.apache.commons.lang3.builder.HashCodeBuilder;
-import org.ticketapp.util.GeneratorUtil;
 
 /**
  * Holds information of a particular Event seat level
@@ -16,7 +12,6 @@ public class SeatLevel implements Comparable<SeatLevel>{
 	private final String name;
 	private final int rows;
 	private final int seats;
-	//private final Set<SeatRow> rows;
 	private final Double price;
 	public SeatLevel(int id, String name, Double price, int numRows, int numSeats) {
 		this.id = id;
@@ -24,10 +19,6 @@ public class SeatLevel implements Comparable<SeatLevel>{
 		this.price = price;
 		this.rows = numRows;
 		this.seats = numSeats;
-		/*this.rows = new HashSet<>(numRows);
-		for (int i = 1; i <= numRows; i++) {
-			rows.add(new SeatRow(i, GeneratorUtil.getString(i), numSeats));
-		}*/
 	}
 	public int getId() {
 		return id;
@@ -35,9 +26,6 @@ public class SeatLevel implements Comparable<SeatLevel>{
 	public String getName() {
 		return name;
 	}
-	/*public Set<SeatRow> getRows() {
-		return rows;
-	}*/
 	public Double getPrice() {
 		return price;
 	}
@@ -47,20 +35,6 @@ public class SeatLevel implements Comparable<SeatLevel>{
 	public int getSeats() {
 		return seats;
 	}
-	/**
-	 * Returns the total seats in all rows
-	 * @return total seats in all rows
-	 */
-	/*public int getTotalSeats() {
-		return rows.parallelStream().mapToInt(row -> row.getTotalSeats()).sum();
-	}
-	/**
-	 * Returns the number of available seats in all rows
-	 * @return number of available seats in all rows
-	 */
-	/*public int getAvailableSeats() {
-		return rows.parallelStream().mapToInt(row -> row.getAvailableSeats()).sum();
-	}*/
 	@Override
 	public boolean equals(Object obj) {
 		if (obj == null) {

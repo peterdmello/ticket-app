@@ -19,8 +19,6 @@ public class Seat implements Comparable<Seat> {
 
 	private final SeatIdentifier id;
 	private final SeatState state;
-	// private Integer holdId;
-	// private Integer reservationId;
 
 	public Seat(SeatIdentifier id) {
 		this.id = id;
@@ -39,12 +37,6 @@ public class Seat implements Comparable<Seat> {
 	public SeatState getState() {
 		return state;
 	}
-
-	/*
-	 * public Integer getHoldId() { return holdId; }
-	 * 
-	 * public Integer getReservationId() { return reservationId; }
-	 */
 
 	public boolean isAvailable() {
 		return state == SeatState.AVAILABLE;

@@ -18,7 +18,7 @@ import org.ticketapp.bean.Seat.SeatState;
 
 /**
  * Contains event state data. Object is immutable.
- * 
+ * TODO: use Builder pattern instead of multiple ugly constructors
  * @author peter
  */
 public class Event implements Comparable<Event> {
@@ -38,7 +38,7 @@ public class Event implements Comparable<Event> {
 	 * Says when the object was created. Useful to determine validity of object
 	 */
 	private final long createdTime;
-	// private final Set<SeatLevel> levels;
+
 	/**
 	 * Seconds after which a hold on tickets will expire
 	 */
@@ -136,11 +136,6 @@ public class Event implements Comparable<Event> {
 		return duration;
 	}
 
-	/*
-	 * public Set<SeatLevel> getLevels() { return
-	 * Collections.unmodifiableSet(levels); }
-	 */
-
 	public long getHoldExpirationSeconds() {
 		return holdExpirationSeconds;
 	}
@@ -171,15 +166,6 @@ public class Event implements Comparable<Event> {
 						.mapToInt(e -> 1).sum())
 				.orElse(seats.entrySet().parallelStream().filter(seatEntry -> predicate.test(seatEntry.getValue()))
 						.mapToInt(e -> 1).sum());
-		/*
-		 * return levelId.map( level ->
-		 * seats.entrySet().parallelStream().filter( seatEntry ->
-		 * seatEntry.getKey().getLevel() == level &&
-		 * predicate.test(seatEntry.getValue()) ).mapToInt(e -> 1).sum());
-		 */
-		// return levelId.flatMap(level -> getLevel(level)).map(level ->
-		// mapper.apply(level)).orElse(levels.parallelStream().mapToInt(level ->
-		// mapper.apply(level)).sum());
 	}
 
 	public List<Seat> getBestAvailableSeats(Optional<Integer> minLevel, Optional<Integer> maxLevel, int count) {
@@ -199,24 +185,12 @@ public class Event implements Comparable<Event> {
 		}
 		return Collections.unmodifiableList(bestList);
 	}
-	/*
-	 * private Optional<SeatLevel> getLevel(Integer levelId) {
-	 * Optional<SeatLevel> providedLevel = levels.parallelStream().filter(level
-	 * -> level.getId() == levelId) .findFirst(); return providedLevel; }
-	 */
 
 	@Override
 	public int compareTo(Event o) {
 		return Integer.compare(id, o.id);
 	}
 
-	/*
-	 * public Integer getMinLevel() { // TODO Auto-generated method stub return
-	 * null; }
-	 * 
-	 * public Integer getMaxLevel() { // TODO Auto-generated method stub return
-	 * null; }
-	 */
 	@Override
 	public String toString() {
 		return new StringBuilder("Event[id: ").append(id).append(", name: ").append(name).append(", totalSeats: ")

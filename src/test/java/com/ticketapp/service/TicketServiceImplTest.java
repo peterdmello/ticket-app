@@ -28,12 +28,16 @@ import org.ticketapp.bean.SeatIdentifier;
 import org.ticketapp.bean.input.EventInput;
 import org.ticketapp.bean.input.LevelInput;
 
+import com.ticketapp.service.TicketServiceImpl.ScheduledHold;
+import com.ticketapp.service.exception.NotFoundException;
 import com.ticketapp.service.exception.SeatHoldException;
+import com.ticketapp.service.exception.SeatReservationException;
 
 public class TicketServiceImplTest {
 
 	private TicketServiceImpl ticketServiceImpl;
 	private ScheduledExecutorService mockExecutor;
+	private ConcurrentHashMap<Integer, ScheduledHold> holdCollection = new ConcurrentHashMap<>();
 	@Rule public JUnitRuleMockery context = new JUnitRuleMockery();
 	@Before
 	public void before() {
@@ -41,7 +45,8 @@ public class TicketServiceImplTest {
 		context.checking(new Expectations() {{
 			oneOf(mockExecutor).isShutdown();will(returnValue(false));
 		}});
-		ticketServiceImpl = new TicketServiceImpl(mockExecutor, new ConcurrentHashMap<>(), new ConcurrentHashMap<>(), new ConcurrentHashMap<>());
+		ticketServiceImpl = new TicketServiceImpl(mockExecutor, new ConcurrentHashMap<>(), new ConcurrentHashMap<>(),
+				holdCollection, new ConcurrentHashMap<>());
 	}
 
 	@Test(expected = IllegalStateException.class)
@@ -153,4 +158,14 @@ public class TicketServiceImplTest {
 		context.assertIsSatisfied();
 	}
 
+	@Test(expected = SeatReservationException.class)
+	public void testReserveSeatsShouldThrowException() {
+		ticketServiceImpl.reserveSeats(5, "a@b.com");
+	}
+
+	@Test(expected = NotFoundException.class)
+	public void testShouldThrowNotFoundExceptionForIncorrectCustomer() {
+		holdCollection.put(1, new ScheduledHold(1, 1, new SeatHold(1, 1, "a@b.com", null), null));
+		ticketServiceImpl.reserveSeats(1, "b@c.com");
+	}
 }
