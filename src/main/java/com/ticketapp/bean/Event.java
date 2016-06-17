@@ -1,4 +1,4 @@
-package org.ticketapp.bean;
+package com.ticketapp.bean;
 
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
@@ -14,7 +14,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.function.Predicate;
 
-import org.ticketapp.bean.Seat.SeatState;
+import com.ticketapp.bean.Seat.SeatState;
 
 /**
  * Contains event state data. Object is immutable.

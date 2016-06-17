@@ -17,12 +17,12 @@ import java.util.concurrent.TimeUnit;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.ticketapp.bean.Event;
-import org.ticketapp.bean.SeatHold;
-import org.ticketapp.bean.SeatReservation;
-import org.ticketapp.bean.input.EventInput;
-import org.ticketapp.bean.input.LevelInput;
 
+import com.ticketapp.bean.Event;
+import com.ticketapp.bean.SeatHold;
+import com.ticketapp.bean.SeatReservation;
+import com.ticketapp.bean.input.EventInput;
+import com.ticketapp.bean.input.LevelInput;
 import com.ticketapp.service.TicketServiceImpl.ScheduledHold;
 import com.ticketapp.service.exception.SeatHoldException;
 import com.ticketapp.service.exception.SeatReservationException;

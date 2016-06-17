@@ -1,8 +1,10 @@
-package org.ticketapp.util;
+package com.ticketapp.util;
 
 import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
+
+import com.ticketapp.util.GeneratorUtil;
 
 public class GeneratorUtilTest {
 

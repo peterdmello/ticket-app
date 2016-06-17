@@ -19,15 +19,15 @@ import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.ticketapp.bean.Event;
-import org.ticketapp.bean.Seat;
-import org.ticketapp.bean.Seat.SeatState;
-import org.ticketapp.bean.SeatHold;
-import org.ticketapp.bean.SeatIdentifier;
-import org.ticketapp.bean.SeatLevel;
-import org.ticketapp.bean.SeatReservation;
-import org.ticketapp.bean.input.EventInput;
 
+import com.ticketapp.bean.Event;
+import com.ticketapp.bean.Seat;
+import com.ticketapp.bean.SeatHold;
+import com.ticketapp.bean.SeatIdentifier;
+import com.ticketapp.bean.SeatLevel;
+import com.ticketapp.bean.SeatReservation;
+import com.ticketapp.bean.Seat.SeatState;
+import com.ticketapp.bean.input.EventInput;
 import com.ticketapp.service.exception.NotFoundException;
 import com.ticketapp.service.exception.SeatHoldException;
 import com.ticketapp.service.exception.SeatReservationException;

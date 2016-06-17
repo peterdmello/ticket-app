@@ -1,4 +1,4 @@
-package org.ticketapp.bean;
+package com.ticketapp.bean;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -15,9 +15,14 @@ import java.util.stream.Collectors;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.ticketapp.bean.Seat.SeatState;
-import org.ticketapp.bean.input.EventInput;
-import org.ticketapp.bean.input.LevelInput;
+
+import com.ticketapp.bean.Event;
+import com.ticketapp.bean.Seat;
+import com.ticketapp.bean.SeatIdentifier;
+import com.ticketapp.bean.SeatLevel;
+import com.ticketapp.bean.Seat.SeatState;
+import com.ticketapp.bean.input.EventInput;
+import com.ticketapp.bean.input.LevelInput;
 
 public class EventTest {
 

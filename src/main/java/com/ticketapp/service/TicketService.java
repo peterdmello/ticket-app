@@ -2,7 +2,7 @@ package com.ticketapp.service;
 
 import java.util.Optional;
 
-import org.ticketapp.bean.SeatHold;
+import com.ticketapp.bean.SeatHold;
 
 public interface TicketService {
 	/**
