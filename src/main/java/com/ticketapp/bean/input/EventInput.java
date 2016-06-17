@@ -1,4 +1,4 @@
-package org.ticketapp.bean.input;
+package com.ticketapp.bean.input;
 
 import java.time.ZonedDateTime;
 import java.util.List;

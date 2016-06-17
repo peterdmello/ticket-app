@@ -1,4 +1,4 @@
-package org.ticketapp.bean;
+package com.ticketapp.bean;
 
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 

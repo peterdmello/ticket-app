@@ -1,4 +1,4 @@
-package org.ticketapp.bean;
+package com.ticketapp.bean;
 
 import java.util.List;
 

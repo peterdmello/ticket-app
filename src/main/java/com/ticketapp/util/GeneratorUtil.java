@@ -1,4 +1,4 @@
-package org.ticketapp.util;
+package com.ticketapp.util;
 
 public final class GeneratorUtil {
 

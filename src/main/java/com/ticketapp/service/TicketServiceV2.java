@@ -1,7 +1,7 @@
 package com.ticketapp.service;
 
-import org.ticketapp.bean.Event;
-import org.ticketapp.bean.input.EventInput;
+import com.ticketapp.bean.Event;
+import com.ticketapp.bean.input.EventInput;
 
 /**
  * Interface with additional ticket service methods

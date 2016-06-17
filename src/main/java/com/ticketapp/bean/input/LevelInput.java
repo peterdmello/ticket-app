@@ -1,4 +1,4 @@
-package org.ticketapp.bean.input;
+package com.ticketapp.bean.input;
 
 public class LevelInput {
 	private final String name;
